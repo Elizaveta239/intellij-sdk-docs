@@ -103,6 +103,11 @@ Please see [Incompatible API Changes](api_changes_list.md) on how to verify comp
 `com.intellij.openapi.fileEditor.impl.EditorTabTitleProvider.getEditorTabTitle(Project, VirtualFile, EditorWindow)` method parameter `EditorWindow` removed
 : This parameter never needed, but lead to code coupling
 
+### Python Plugin 2021.3
+
+`com.jetbrains.python.console.PydevConsoleRunnerImpl(Project, Sdk, PyConsoleType, String, Map<String, String>, PyConsoleOptions.PyConsoleSettings, Consumer<? super String>, String[])` constructor parameter type `com.intellij.util.Consumer<? super String>` removed
+: There is no need to pass a Restart action as a constructor parameter, it should be created inside the `com.jetbrains.python.console.PydevConsoleRunnerImpl#createRerunAction` method
+
 ## 2021.2
                               
 ### Changes in IntelliJ Platform 2021.2
