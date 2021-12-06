@@ -2,11 +2,13 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 The IntelliJ Platform includes a powerful framework for implementing formatting for custom languages.
 A formatter enables reformatting code automatically based on code style settings.
 The formatter controls spaces, indents, wrap, and alignment.
 
-**Reference**: [Code Formatter](code_formatting.md)
+**Reference**: [](code_formatting.md)
 
 ## Define a Block
 The formatting model represents the formatting structure of a file as a tree of [`Block`](upsource:///platform/code-style-api/src/com/intellij/formatting/Block.java) objects, with associated indent, wrap, alignment and spacing settings.

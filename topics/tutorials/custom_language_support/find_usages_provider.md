@@ -2,10 +2,12 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 A `FindUsagesProvider` uses a word scanner to build an index of words in every file.
 A scanner breaks the text into words and defines the context for each word.
 
-**Reference**: [Find Usages](find_usages.md)
+**Reference**: [](find_usages.md)
 
 ## Define a Find Usages Provider
 The `SimpleFindUsagesProvider` implements [`FindUsagesProvider`](upsource:///platform/indexing-api/src/com/intellij/lang/findUsages/FindUsagesProvider.java).

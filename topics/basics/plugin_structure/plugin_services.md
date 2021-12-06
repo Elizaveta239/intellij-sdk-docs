@@ -1,4 +1,4 @@
-[//]: # (title: Plugin Services)
+[//]: # (title: Services)
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
@@ -53,7 +53,7 @@ To register a non-[Light Service](#light-services), distinct extension points ar
 * `com.intellij.applicationService` - application level service
 * `com.intellij.projectService` - project level service
 * `com.intellij.moduleService` - module level service (not recommended, see Note above)
-                                  
+
 To expose service API, create separate class for `serviceInterface` and extend it in corresponding class registered in `serviceImplementation`.
 If `serviceInterface` isn't specified, it's supposed to have the same value as `serviceImplementation`.
 
@@ -81,9 +81,18 @@ If service is requested from several threads, it will be initialized in the firs
 <tab title="Java">
 
 ```java
-MyApplicationService applicationService = ApplicationManager.getApplication().getService(MyApplicationService.class);
+MyApplicationService applicationService = ApplicationManager.getApplication()
+          .getService(MyApplicationService.class);
 
-MyProjectService projectService = project.getService(MyProjectService.class)
+MyProjectService projectService = project.getService(MyProjectService.class);
+```
+
+Service implementations can wrap these calls with convenient static `getInstance()` or `getInstance(Project)` method:
+
+```java
+MyApplicationService applicationService = MyApplicationService.getInstance();
+
+MyProjectService projectService = MyProjectService.getInstance(project);
 ```
 
 </tab>
@@ -98,6 +107,12 @@ val projectService = project.service<MyProjectService>()
 </tab>
 
 </tabs>
+
+<procedure title="Getting Service Flow" initial-collapse-state="collapsed">
+
+![Getting Service](getting_service.svg){thumbnail="true" thumbnail-same-file="true"}
+
+</procedure>
 
 ## Project Service Sample
 This minimal sample shows [Light Service](#light-services) `ProjectService` interacting with another project level service `AnotherService` (not shown here).

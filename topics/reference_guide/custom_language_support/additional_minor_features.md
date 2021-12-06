@@ -1,10 +1,10 @@
 [//]: # (title: Additional Minor Features)
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 A number of minor features are listed in the following format:
 
-_EP: `fully.qualified.extensionPointName`_ - Extension Point Name (must be specified in `plugin.xml`)
+_EP: `fully.qualified.extensionPointName`_ - Extension Point Name (must be specified in <path>plugin.xml</path>)
 
 _`com.extensionPoint.class`_ _description text_ - Extension Point class/interface to provide functionality
 
@@ -86,3 +86,8 @@ EP: `com.intellij.referenceInjector`
 EP: `com.intellij.colorProvider`
 
 [`ElementColorProvider`](upsource:///platform/lang-api/src/com/intellij/openapi/editor/ElementColorProvider.java) renders gutter icon for element containing color information.
+
+### File Includes
+EP: `com.intellij.include.provider`
+
+[`FileIncludeProvider`](upsource:///platform/lang-impl/src/com/intellij/psi/impl/include/FileIncludeProvider.java) provides information about _include_ statements resolving to files (e.g., `<xi:include>` in XML). Including/included files can then be obtained via [`FileIncludeManager`](upsource:///platform/lang-api/src/com/intellij/psi/impl/include/FileIncludeManager.java).

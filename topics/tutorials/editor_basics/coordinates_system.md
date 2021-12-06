@@ -5,8 +5,8 @@
 The previous tutorial [Working with Text](working_with_text.md) demonstrated how to use actions to access a caret placed in a document open in an editor.
 The examples replaced selected text in a document by using information about the caret.
 
-Every caret has a set of properties describing its position in one of several coordinate systems. 
-This tutorial describes how to access information about the caret(s) in an editor. 
+Every caret has a set of properties describing its position in one of several coordinate systems.
+This tutorial describes how to access information about the caret(s) in an editor.
 
 ## Introduction
 In this tutorial, the [editor_basics](https://github.com/JetBrains/intellij-sdk-code-samples/tree/main/editor_basics) code sample is used to explore caret positions.
@@ -173,7 +173,7 @@ The caret Offset includes:
 * The first (0th) character in a document.
 * Whitespace characters, including newline and tabs.
 * Any characters after end-of-line if the IDE settings permit them.
-  (**Preferences \| Editor \| General \| Virtual Space**)
+  (<menupath>Settings/Preferences | Editor | General | Virtual Space</menupath>)
 * The character selected by the caret.
 
 The example below demonstrates the Offset of a caret placed at the first character of Logical line one.
@@ -204,7 +204,7 @@ public class EditorAreaIllustration extends AnAction {
     // Build and display the caret report.
     String report = logicalPos.toString() + "\n" + visualPos.toString() + "\n" +
             "Offset: " + caretOffset;
-    Messages.showInfoMessage(report.toString(), "Caret Parameters Inside The Editor");
+    Messages.showInfoMessage(report, "Caret Parameters Inside The Editor");
   }
 
 }

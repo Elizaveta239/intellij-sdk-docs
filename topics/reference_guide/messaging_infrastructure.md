@@ -1,6 +1,6 @@
 [//]: # (title: Messaging Infrastructure)
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 ## Purpose
 
@@ -9,7 +9,7 @@ It is intended to answer why, when and how to use it.
 
 ## Rationale
 
-So, what is messaging in the IntelliJ Platform and why do we need it? Basically, its implementation of [Publisher Subscriber Pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) that provides additional features like _broadcasting on hierarchy_ and special _nested events_ processing (_nested event_ here is a situation when new event is fired (directly or indirectly) from the callback of another event).
+So, what is messaging in the IntelliJ Platform and why do we need it? Basically, its implementation of [Publisher Subscriber Pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern){interpolate-variables="false"} that provides additional features like _broadcasting on hierarchy_ and special _nested events_ processing (_nested event_ here is a situation when new event is fired (directly or indirectly) from the callback of another event).
 
 ## Design
 
@@ -29,12 +29,18 @@ I.e., clients are allowed to subscribe to a specific topic within a bus and send
   Publishers later retrieve objects that conform to the interface (IS-A) and call any methods defined on those implementations.
   The messaging infrastructure takes care of dispatching the message to all subscribers of the topic by calling the same method with the same arguments on the registered implementation callbacks;
 
+To clarify corresponding message bus, `Topic` field declaration can be annotated with `com.intellij.util.messages.Topic.AppLevel` and `com.intellij.util.messages.Topic.ProjectLevel`, respectively.
+
+ > All available listeners/topics are listed on [Extension Point List](extension_point_list.md) under _Listeners_ sections.
+ >
+ {type="tip"}
+
 ### Message Bus
 
 Is the core of the messaging system.
 Is used at the following scenarios:
 
-![Bus](bus.png)
+![Bus](bus.svg)
 
 ### Connection
 
@@ -108,7 +114,7 @@ public void doChange(Context context) {
 * *MessageBus* instances are available via [`ComponentManager.getMessageBus()`](upsource:///platform/extensions/src/com/intellij/openapi/components/ComponentManager.java)
   Many standard interfaces implement a message bus, e.g., [`Application`](upsource:///platform/core-api/src/com/intellij/openapi/application/Application.java) and [`Project`](upsource:///platform/core-api/src/com/intellij/openapi/project/Project.java).
 * A number of public topics are used by the IntelliJ Platform, e.g., [`AppTopics`](upsource:///platform/platform-api/src/com/intellij/AppTopics.java), [`ProjectTopics`](upsource:///platform/projectModel-api/src/com/intellij/ProjectTopics.java), etc.
-  So, it's possible to subscribe to them in order to receive information about the processing;
+  So, it's possible to subscribe to them in order to receive information about the processing.
 
 ## Broadcasting
 
@@ -170,7 +176,7 @@ Let's see what happens if someone sends a message to the target topic:
 
 ### Relief Listeners Management
 
-Messaging infrastructure is very light-weight, so, it's possible to reuse it at local sub-systems in order to relieve [Subscribers](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) construction.
+Messaging infrastructure is very light-weight, so, it's possible to reuse it at local sub-systems in order to relieve [Subscribers](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern){interpolate-variables="false"} construction.
 Let's see what is necessary to do then:
 
 1. Define business interface to work with;

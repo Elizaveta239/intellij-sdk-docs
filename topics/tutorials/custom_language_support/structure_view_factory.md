@@ -2,10 +2,12 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 The structure view can be customized for a specific file type.
 Creating a structure view factory allows showing the structure of any file in a _Structure_ Tool Window for easy navigation between items in the current editor.
 
-**Reference**: [Structure View](structure_view.md)
+**Reference**: [](structure_view.md)
 
 ## Define a Structure View Factory
 The structure view factory implements [`PsiStructureViewFactory`](upsource:///platform/editor-ui-api/src/com/intellij/lang/PsiStructureViewFactory.java).

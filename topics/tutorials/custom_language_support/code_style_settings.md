@@ -2,6 +2,8 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 Code style settings enable defining formatting options.
 A code style settings provider creates an instance of the settings and also creates an options page in settings/preferences.
 This example creates a settings/preferences page that uses the default language code style settings, customized by a language code style settings provider.
@@ -52,6 +54,6 @@ The `SimpleLanguageCodeStyleSettingsProvider` implementation is registered with 
 ## Run the Project
 Run the plugin by using the Gradle [runIde task](gradle_prerequisites.md#running-a-simple-gradle-based-intellij-platform-plugin).
 
-In the IDE Development Instance, open the Simple Language code formatting page: **Preferences/Settings \| Editor \| Code Style \| Simple**.
+In the IDE Development Instance, open the Simple Language code formatting page: <menupath>Settings/Preferences | Editor | Code Style | Simple</menupath>.
 
 ![Code Style Settings](code_style_settings.png)

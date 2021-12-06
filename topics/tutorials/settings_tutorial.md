@@ -90,7 +90,7 @@ An explanation of this declaration can be found in [Declaring Application Settin
 ```
 
 ### Creating the AppSettingsConfigurable Implementation
-The `AppSettingsConfigurable` class implements [`Configurable`](upsource:///platform/platform-api/src/com/intellij/openapi/options/Configurable.java) interface.
+The `AppSettingsConfigurable` class implements [`Configurable`](upsource:///platform/ide-core/src/com/intellij/openapi/options/Configurable.java) interface.
 The class has one field to hold a reference to the `AppSettingsComponent`.
 
 ```java
@@ -104,7 +104,7 @@ Also review notes about [IntelliJ Platform Interactions](settings_guide.md#intel
 
 ## Testing the Custom Settings Plugin
 After performing the steps described above, compile and run the plugin in a Development Instance to see the custom Settings available in the Settings Dialog.
-Open the IDE Settings by selecting **Settings/Preferences \| Tools \| SDK: Application Settings Example**.
+Open the IDE Settings by selecting <menupath>Settings/Preferences | Tools | SDK: Application Settings Example</menupath>.
 The settings are preloaded with the default values:
 
 !["Settings Defaults"](settings_defaults.png){width="600"}

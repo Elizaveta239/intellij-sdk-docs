@@ -2,10 +2,12 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 In order for the IntelliJ Platform to parse a Simple Language file, tokens and elements must be defined based on [`IElementType`](upsource:///platform/core-api/src/com/intellij/psi/tree/IElementType.java).
 The Simple Language grammar must also be defined to generate a parser.
 
-**Reference**: [Implementing a Parser and PSI](implementing_parser_and_psi.md)
+**Reference**: [](implementing_parser_and_psi.md)
 
 ## Define a Token Type
 Create `SimpleTokenType` in the `org.intellij.sdk.language.psi` package (see the `simple_language_plugin` code sample) by subclassing `IElementType`.

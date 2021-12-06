@@ -1,6 +1,6 @@
 [//]: # (title: Persisting State of Components)
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The IntelliJ Platform provides an API that allows components or services to persist their state between restarts of the IDE.
 You can use either a simple API to persist a few values or persist the state of more complicated components using the [`PersistentStateComponent`](upsource:///platform/projectModel-api/src/com/intellij/openapi/components/PersistentStateComponent.java) interface.
@@ -42,6 +42,10 @@ In the former case, the state class instance is typically stored as a field in t
 @State(...)
 class MyService implements PersistentStateComponent<MyService.State> {
 
+  public static MyService getInstance() {
+    // implementation according to Application/Project level service
+  }
+
   static class State {
     public String value;
   }
@@ -63,6 +67,11 @@ In the latter case, you can use the following pattern to implement `getState()` 
 ```java
 @State(...)
 class MyService implements PersistentStateComponent<MyService> {
+
+  public static MyService getInstance() {
+    // implementation according to Application/Project level service
+  }
+
   public String stateValue;
 
   public MyService getState() {
@@ -141,7 +150,7 @@ The simplest ways of specifying the `@Storage` annotation are as follows (since 
 
 The state is persisted in a separate file by specifying a different setting for the `value` parameter, which was the `file` parameter before 2016.x.
 
- >  For application-level components, it is strongly recommended to use a custom file, using of `other.xml` is deprecated.
+ >  For application-level components, it is strongly recommended to use a custom file, using of <path>other.xml</path> is deprecated.
  >
  {type="note"}
 
@@ -185,6 +194,6 @@ Implementations can manually store the state in attributes and sub-elements or u
 
 Components save their state in the following files:
 
-* Project-level: project (`.ipr`) file.
-  However, if the workspace option in the `plugin.xml` file is set to `true`, then the workspace (`.iws`) file is used instead.
-* Module-level: module (`.iml`) file.
+* Project-level: project (<path>.ipr</path>) file.
+  However, if the workspace option in the <path>plugin.xml</path> file is set to `true`, then the workspace (<path>.iws</path>) file is used instead.
+* Module-level: module (<path>.iml</path>) file.

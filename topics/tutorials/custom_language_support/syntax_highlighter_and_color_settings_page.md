@@ -2,11 +2,13 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 The first level of syntax highlighting is based on the lexer output, and is provided by `SyntaxHighlighter`.
 A plugin can also define color settings based on `ColorSettingPage` so the user can configure highlight colors.
 The `SimpleSyntaxHighlighter`, `SimpleSyntaxHighlighterFactory`, and `SimpleColorSettingsPage` discussed on this page are demonstrated in the `simple_language_plugin` code sample.
 
-**Reference**: [Syntax Highlighting and Error Highlighting](syntax_highlighting_and_error_highlighting.md)
+**Reference**: [](syntax_highlighting_and_error_highlighting.md)
 
 ## Define a Syntax Highlighter
 The Simple Language syntax highlighter class extends [`SyntaxHighlighterBase`](upsource:///platform/editor-ui-api/src/com/intellij/openapi/fileTypes/SyntaxHighlighterBase.java).
@@ -61,7 +63,7 @@ Register the Simple Language color settings page with the IntelliJ Platform in t
 ### Run the Project
 Run the project by using the Gradle [runIde task](gradle_prerequisites.md#running-a-simple-gradle-based-intellij-platform-plugin).
 
-In the IDE Development Instance, open the Simple Language highlight settings page: **Preferences/Settings \| Editor \| Color Scheme \| Simple**.
-Each color initially inherits from a _Language Defaults_ value.
+In the IDE Development Instance, open the Simple Language highlight settings page: <menupath>Settings/Preferences | Editor | Color Scheme | Simple</menupath>.
+Each color initially inherits from a <control>Language Defaults</control> value.
 
 ![Color Settings Page](color_settings_page.png)

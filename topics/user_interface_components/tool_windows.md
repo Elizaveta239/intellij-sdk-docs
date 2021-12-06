@@ -17,12 +17,15 @@ There are two main scenarios for the use of tool windows in a plugin.
 Using declarative setup, a tool window button is always visible, and the user can activate it and interact with the plugin functionality at any time.
 Alternatively, using programmatic setup, the tool window is created to show the results of a specific operation, and can be closed by the user after the operation is completed.
 
+Project-level topic [`ToolWindowManagerListener`](upsource:///platform/platform-impl/src/com/intellij/openapi/wm/ex/ToolWindowManagerListener.java) allows listening to tool window (un-)registering/show events.
+
 ### Declarative Setup
 
-The tool window is registered in `plugin.xml` using the `com.intellij.toolWindow` extension point.
+The tool window is registered in <path>plugin.xml</path> using the `com.intellij.toolWindow` extension point.
 The extension point attributes specify all the data which is necessary to display the tool window button:
 
-*  The `id` of the tool window (corresponds to the text displayed on the tool window button)
+*  The `id` of the tool window - corresponds to the text displayed on the tool window button.
+To provide a localized text, specify matching `toolwindow.stripe.[id]` message key (escape spaces with `_`) in your [message bundle](localization_guide.md) (code insight supported in 2020.3 and later).
 
 *  The `anchor`, meaning the side of the screen on which the tool window is displayed ("left" (default), "right" or "bottom")
 
@@ -35,32 +38,44 @@ When the user clicks on the tool window button, the `createToolWindowContent()` 
 This procedure ensures that unused tool windows don't cause any overhead in startup time or memory usage: if a user does not interact with the tool window, no plugin code will be loaded or executed.
 
 If the tool window of a plugin doesn't need to be displayed for all projects:
-* For versions 2020.1 and later, also implement the `isApplicable(Project)` method.
-* For versions 2019.3 and earlier, also specify the `conditionClass` attribute: the FQN of a class implementing [`Condition<Project>`](upsource:///platform/util-rt/src/com/intellij/openapi/util/Condition.java), which can be the same class as the tool window factory implementation.
 
-Note the condition is evaluated only once when the project is loaded; to show and hide a tool window dynamically while the user is working with the project use [programmatic setup](#programmatic-setup) for tool window registration.
-              
-To provide a localized text for the tool window button, specify matching `toolwindow.stripe.[id]` message key (escape spaces with `_`) in your [message bundle](localization_guide.md) (code insight supported in 2020.3 and later).
+<tabs>
+
+<tab title="2021.1 and later">
+
+Implement the `isApplicable(Project)` method.
+
+</tab>
+
+<tab title="2019.3 and earlier">
+
+Specify the `conditionClass` attribute in <path>plugin.xml</path> with a class implementing [`Condition<Project>`](upsource:///platform/util-rt/src/com/intellij/openapi/util/Condition.java) (can be the same class as the `ToolWindowFactory` implementation).
+
+</tab>
+
+</tabs>
+
+Note the condition is evaluated only once when the project is loaded. To show and hide a tool window dynamically while the user is working with the project use [programmatic setup](#programmatic-setup) for tool window registration.
 
 ### Programmatic Setup
 
 The second method involves simply calling [`ToolWindowManager.registerToolWindow()`](upsource:///platform/platform-api/src/com/intellij/openapi/wm/ToolWindowManager.kt) from the plugin code.
 The method has multiple overloads that can be used depending on the task.
 When using an overload that takes a component, the component becomes the first content (tab) displayed in the tool window.
-                     
+
 ## Contents (Tabs)
 
 Displaying the contents of many tool windows requires access to [indexes](indexing_and_psi_stubs.md).
 Because of that, tool windows are normally disabled while building indexes unless the `ToolWindowFactory` implements [`DumbAware`](upsource:///platform/core-api/src/com/intellij/openapi/project/DumbAware.java). For programmatic setup, parameter `canWorkInDumbMode` must be set to `true` in calls to `registerToolWindow()`.
 
 As mentioned previously, tool windows can contain multiple tabs, or contents.
-To manage the contents of a tool window, call [`ToolWindow.getContentManager()`](upsource:///platform/platform-api/src/com/intellij/openapi/wm/ToolWindow.java).
-To add a tab (content), first create it by calling [`ContentManager.getFactory().createContent()`](upsource:///platform/platform-api/src/com/intellij/ui/content/ContentManager.java), and then to add it to the tool window using [`ContentManager.addContent()`](upsource:///platform/platform-api/src/com/intellij/ui/content/ContentManager.java).
+To manage the contents of a tool window, call [`ToolWindow.getContentManager()`](upsource:///platform/ide-core/src/com/intellij/openapi/wm/ToolWindow.java).
+To add a tab (content), first create it by calling [`ContentManager.getFactory().createContent()`](upsource:///platform/ide-core/src/com/intellij/ui/content/ContentManager.java), and then to add it to the tool window using [`ContentManager.addContent()`](upsource:///platform/ide-core/src/com/intellij/ui/content/ContentManager.java).
 
 A plugin can control whether the user is allowed to close tabs either globally or on a per-tab basis.
-The former is done by passing the `canCloseContents` parameter to the `registerToolWindow()` function, or by specifying `canCloseContents="true"` in `plugin.xml`.
+The former is done by passing the `canCloseContents` parameter to the `registerToolWindow()` function, or by specifying `canCloseContents="true"` in <path>plugin.xml</path>.
 The default value is `false`; calling `setClosable(true)` on `ContentManager` content will be ignored unless `canCloseContents` is explicitly set.
-If closing tabs is enabled in general, a plugin can disable closing of specific tabs by calling [`Content.setCloseable(false)`](upsource:///platform/platform-api/src/com/intellij/ui/content/Content.java).
+If closing tabs is enabled in general, a plugin can disable closing of specific tabs by calling [`Content.setCloseable(false)`](upsource:///platform/ide-core/src/com/intellij/ui/content/Content.java).
 
 ## Sample Plugin
 

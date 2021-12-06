@@ -11,24 +11,49 @@ Plugin projects for GoLand can be developed using IntelliJ IDEA with the `gradle
  {type="tip"}
 
 ## Configuring Plugin Projects Targeting GoLand
+
+<tabs>
+
+<tab title="GoLand IDE">
+
+The configuration of targeting GoLand IDE follows the methods described in [Configuring Plugin Projects Using a Product-Specific Attribute](dev_alternate_products.md#configuring-plugin-projects-using-a-product-specific-attribute).
+
+Starting with 2020.2, it's possible to configure `GO` for `intellij.type` in <path>build.gradle</path>.
+
+
+```groovy
+intellij {
+  version = '2020.3'
+  type = 'GO'
+}
+```
+
+</tab>
+
+<tab title="Using Plugin">
+
 The configuration of GoLand plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-plugin-projects-using-the-intellij-idea-product-attribute), and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml).
 
 The table below summarizes the `gradle-intellij-plugin` attributes to set in the plugin project's <path>build.gradle</path> file.
 Click on an entry in the table's *Attribute* column to go to the documentation about that attribute.
 To see how these attributes appear in a similar <path>build.gradle</path> file for PhpStorm, see [Configuring build.gradle using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-buildgradle-using-the-intellij-idea-product-attribute).
 
-| `gradle-intellij-plugin` Attribute | Attribute Value                                                                                                                                                                                     |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`intellij.type`][properties]      | `IU` for IntelliJ IDEA Ultimate. The Go plugin isn't compatible with IntelliJ IDEA Community Edition.                                                                                               |
-| [`intellij.version`][properties]   | Set to the same `IU` BRANCH.BUILD as the GoLand target version, e.g. `193.5233.102`.                                                                                                                |
-| [`intellij.plugins`][properties]   | `org.jetbrains.plugins.go:193.5233.102.83` for the Go plugin.<br/>See below for Go plugin version information.                                                                                       |
+The Go plugin version is explicitly declared because it isn't bundled with IntelliJ IDEA Ultimate Edition.
+Select a [version](https://plugins.jetbrains.com/plugin/9568-go/versions) of the Go plugin compatible with the IntelliJ Idea Ultimate version.
+
+| `gradle-intellij-plugin` Attribute | Attribute Value                                                                                                                                                                                                |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`intellij.type`][properties]      | `IU` for IntelliJ IDEA Ultimate. The Go plugin isn't compatible with IntelliJ IDEA Community Edition.                                                                                                          |
+| [`intellij.version`][properties]   | Set to the same `IU` BRANCH.BUILD as the GoLand target version, e.g. `193.5233.102`.                                                                                                                           |
+| [`intellij.plugins`][properties]   | `org.jetbrains.plugins.go:193.5233.102.83` for the Go plugin.<br/>See below for Go plugin version information.                                                                                                 |
 | [`runIde.ideDir`][dsl]             | Path to locally installed target version of GoLand. For example, on macOS:<br/><path>/Users/$USERNAME$/Library/Application Support/JetBrains/Toolbox/apps/Goland/ch-0/193.5233.112/GoLand.app/Contents</path>. |
 
 [properties]: https://github.com/JetBrains/gradle-intellij-plugin/blob/master/README.md#intellij-platform-properties
 [dsl]: https://github.com/JetBrains/gradle-intellij-plugin/blob/master/README.md#running-dsl
 
-The Go plugin version is explicitly declared because it isn't bundled with IntelliJ IDEA Ultimate Edition.
-Select a [version](https://plugins.jetbrains.com/plugin/9568-go/versions) of the Go plugin compatible with the IntelliJ Idea Ultimate version.
+</tab>
+
+</tabs>
 
 The dependency on the Go plugin APIs must be declared in the <path>plugin.xml</path> file.
 As described in [Modules Specific to Functionality](plugin_compatibility.md#modules-specific-to-functionality) table, the `<depends>` tags must declare `com.intellij.modules.go`.

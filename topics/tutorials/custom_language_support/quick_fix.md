@@ -2,10 +2,12 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 A quick fix for a custom language supports the IntelliJ Platform-based IDE feature [Intention Actions](https://www.jetbrains.com/help/idea/intention-actions.html#apply-intention-actions).
 For the Simple Language, this tutorial adds a quick fix that helps to define an unresolved property from its usage.
 
-**Reference**: [Code Inspections and Intentions](code_inspections_and_intentions.md)
+**Reference**: [](code_inspections_and_intentions.md)
 
 ## Update the Element Factory
 The `SimpleElementFactory` is updated to include two new methods to support the user choice of creating a new property for the Simple Language quick fix.

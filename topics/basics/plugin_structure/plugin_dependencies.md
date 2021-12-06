@@ -1,4 +1,4 @@
-[//]: # (title: Plugin Dependencies)
+[//]: # (title: Dependencies)
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
@@ -10,10 +10,20 @@ For more information about dependencies on the IntelliJ Platform modules, see Pa
  >
  {type="note"}
 
-To express dependencies on classes from other plugins or modules, perform the following three required steps:
+<procedure title="Required Steps">
 
-## Locating Plugin ID and Preparing Sandbox
-A compatible version must be chosen carefully according to the plugin's [compatibility](build_number_ranges.md). 
+To express dependencies on classes from other plugins or modules, perform the following three required steps detailed below on this page:
+
+1. Locate Plugin ID
+2. Project Setup
+3. Declaration in <path>plugin.xml</path>
+
+If `NoClassDefFoundError` occurs at runtime, it means that either Step 3 was omitted or loading the plugin dependency failed (please check log files from [Development Instance](ide_development_instance.md#development-instance-settings-caches-logs-and-plugins)).
+
+</procedure>
+
+## 1. Locating Plugin ID and Preparing Sandbox
+A compatible version must be chosen carefully according to the plugin's [compatibility](build_number_ranges.md).
 
 For plugins published on [JetBrains Plugins Repository](https://plugins.jetbrains.com)
 - open plugin's detail page
@@ -24,18 +34,18 @@ For bundled and non-public plugins, locate the plugin's main JAR file containing
 
 If the plugin is not bundled with the target IDE, run the (sandbox) [IDE Development Instance](ide_development_instance.md) of your target IDE and install the plugin there.
 
-## Project Setup
+## 2. Project Setup
 Depending on the chosen development workflow (Gradle or DevKit), one of the two following steps is necessary.
-      
+
 <tabs>
 <tab title="Gradle">
- 
+
  >  Please see the `plugins` attribute [gradle-intellij-plugin: Configuration](https://github.com/JetBrains/gradle-intellij-plugin#configuration) for acceptable values.
  >
  {type="note"}
 
 If the project uses [Gradle](gradle_build_system.md) with a Groovy build script to build the plugin, add the dependency to the `plugins` parameter of the `intellij` block in your <path>build.gradle</path>, for example:
-            
+
 <path>build.gradle</path>
 ```groovy
 intellij {
@@ -78,16 +88,15 @@ To do that, open the Project Structure dialog, select the SDK used in the projec
 
 </tabs>
 
-## Dependency Declaration in plugin.xml
+## 3. Dependency Declaration in plugin.xml
 Regardless of whether a plugin project uses [Modules Available in All Products](plugin_compatibility.md#modules-available-in-all-products), or [Modules Specific to Functionality](plugin_compatibility.md#modules-specific-to-functionality), the correct module must be listed as a dependency in <path>plugin.xml</path>.
 If a project depends on another plugin, the dependency must be declared like a [module](plugin_compatibility.md#modules).
 If only general IntelliJ Platform features (APIs) are used, then a default dependency on `com.intellij.modules.platform` must be declared.
 
 To display a list of available IntelliJ Platform modules, invoke the [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#4eac28ba) feature for the `<depends>` element contents while editing the plugin project's <path>plugin.xml</path> file.
 
-### Configuring plugin.xml
 In the <path>plugin.xml</path>, add a `<depends>` tag with the dependency plugin's ID as its content.
-Continuing with the example from [Project Setup](#project-setup) above, the dependency declaration in <path>plugin.xml</path> would be:
+Continuing with the example from [Project Setup](#2-project-setup) above, the dependency declaration in <path>plugin.xml</path> would be:
 
 ```xml
 <depends>org.another.plugin</depends>
@@ -100,9 +109,10 @@ In this case, the plugin will load even if the plugin it depends on is not insta
 Declare additional `optional="true"` and `config-file` attribute pointing to optional plugin descriptor file:
 
 ```xml
-  <depends optional="true" config-file="myPluginId-optionalPluginName.xml">dependency.plugin.id</depends> 
+  <depends optional="true"
+           config-file="myPluginId-optionalPluginName.xml">dependency.plugin.id</depends>
 ```
-                                                                         
+
  >  Additional plugin descriptor files must follow the naming pattern <path>myPluginId-$NAME$.xml</path> resulting in unique filenames to prevent problems with classloaders in tests ([Details](https://youtrack.jetbrains.com/issue/IDEA-205964)).
  >
  {type="note"}
@@ -114,10 +124,12 @@ The main <path>plugin.xml</path> will define an annotator for Java and specify a
 ```xml
 <idea-plugin>
    ...
-   <depends optional="true" config-file="myPluginId-withKotlin.xml">org.jetbrains.kotlin</depends>
+   <depends optional="true"
+            config-file="myPluginId-withKotlin.xml">org.jetbrains.kotlin</depends>
 
    <extensions defaultExtensionNs="com.intellij">
-      <annotator language="JAVA" implementationClass="com.example.MyJavaAnnotator"/>
+      <annotator language="JAVA"
+                 implementationClass="com.example.MyJavaAnnotator"/>
    </extensions>
 </idea-plugin>
 ```
@@ -130,7 +142,8 @@ In that file, define an annotator for Kotlin:
 ```xml
 <idea-plugin>
    <extensions defaultExtensionNs="com.intellij">
-      <annotator language="kotlin" implementationClass="com.example.MyKotlinAnnotator"/>
+      <annotator language="kotlin"
+                 implementationClass="com.example.MyKotlinAnnotator"/>
    </extensions>
 </idea-plugin>
 ```

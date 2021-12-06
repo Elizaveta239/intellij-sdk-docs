@@ -36,14 +36,14 @@ To learn more about building IntelliJ Platform plugins with Kotlin, this tutoria
 ## Adding Kotlin Support
 
  > The [IntelliJ Platform Plugin Template](github_template.md) provides a preconfigured project using Kotlin.
- > 
+ >
  > See also [kotlin_demo](https://github.com/JetBrains/intellij-sdk-code-samples/tree/main/kotlin_demo) for a minimal sample plugin.
  >
  {type="tip"}
 
 IntelliJ IDEA bundles the necessary Kotlin plugin, requiring no further configuration.
 For detailed instructions, please refer to the [Kotlin documentation](https://kotlinlang.org/docs/getting-started.html).
-               
+
 ### Kotlin Standard Library
 
 Since Kotlin 1.4, a dependency on the standard library `stdlib` is added automatically ([API Docs](https://kotlinlang.org/api/latest/jvm/stdlib/)).
@@ -55,10 +55,11 @@ To opt out, add this line in <path>gradle.properties</path>:
 kotlin.stdlib.default.dependency = false
 ```
 
-If a plugin supports [multiple platform versions](build_number_ranges.md), it must either target the lowest bundled `stdlib` version or provide the specific version in plugin distribution.       
-                                                                                          
+If a plugin supports [multiple platform versions](build_number_ranges.md), it must either target the lowest bundled `stdlib` version or provide the specific version in plugin distribution.
+
 | IntelliJ Platform version | Bundled `stdlib` version |
 |---------------------------|--------------------------|
+| 2021.3                    | 1.5.10                   |
 | 2021.2                    | 1.5.10                   |
 | 2021.1                    | 1.4.32                   |
 | 2020.3                    | 1.4.0                    |
@@ -74,45 +75,11 @@ See [Dependency on the standard library](https://kotlinlang.org/docs/gradle.html
 
 Plugins using the [Gradle Build System](gradle_build_system.md) use the [Kotlin JVM Gradle plugin](https://kotlinlang.org/docs/gradle.html#targeting-the-jvm).
 
-Your <path>build.gradle</path> file may look like so:
+See the <path>build.gradle</path> from [kotlin_demo](https://github.com/JetBrains/intellij-sdk-code-samples/tree/main/kotlin_demo) sample plugin:
 
 ```groovy
-plugins {
-    id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.4.32"
-    id "org.jetbrains.intellij" version "1.1.4"
-}
-
-apply plugin: "kotlin"
-apply plugin: "org.jetbrains.intellij"
-
-group "com.example"
-version "0.0.1"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-}
-
-intellij {
-    version = "2020.2.4"
-    pluginName = "Example"
-    updateSinceUntilBuild = false
-}
 ```
+{src="kotlin_demo/build.gradle"}
 
 ### Use Kotlin to Write Gradle Script
 
@@ -125,45 +92,6 @@ There are many good resources for learning how to write build scripts for an Int
 [zig-intellij](https://github.com/ice1000/intellij-zig/blob/master/build.gradle.kts).
 
 Additionally, explore IntelliJ Platform Explorer's [list of open-source plugins](https://jb.gg/ipe?buildSystem=gradle_kts) using Gradle KTS.
-
-<path>build.gradle.kts</path> basically looks like:
-
-```kotlin
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-plugins {
-    id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.4.32"
-    id("org.jetbrains.intellij") version "1.1.4"
-}
-
-group = "com.your.company.name"
-version = "0.1-SNAPSHOT"
-
-tasks.withType<JavaCompile> {
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
-}
-listOf("compileKotlin", "compileTestKotlin").forEach {
-    tasks.getByName<KotlinCompile>(it) {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}
-
-intellij {
-    version = "2020.2.4"
-    pluginName = 'Example'
-    updateSinceUntilBuild = false
-}
-```
 
 ## UI in Kotlin
 
@@ -183,7 +111,7 @@ Depending on exact functionality, a plugin can also target [UAST (Unified Abstra
 
 ## Caution
 
-Plugins *must* use [Kotlin classes](https://kotlinlang.org/docs/classes.html) to implement declarations in the [plugin configuration file](plugin_configuration_file.md).
+Plugins *may* use [Kotlin classes](https://kotlinlang.org/docs/classes.html) to implement declarations in the [plugin configuration file](plugin_configuration_file.md).
 When registering an extension, the platform uses a dependency injection framework to instantiate these classes.
 For this reason, plugins *must not* use [Kotlin objects](https://kotlinlang.org/docs/object-declarations.html) to implement any <path>plugin.xml</path> declarations.
 

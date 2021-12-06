@@ -6,6 +6,9 @@ on:
   pull_request:
     paths: [ 'code_samples/**','.github/workflows/code-samples.yml' ]
 
+env:
+  PLUGIN_VERIFIER_IDE_VERSIONS: '2021.1.3 2021.2.3 2021.3'
+
 jobs:
 
   gradleValidation:
@@ -13,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch Sources
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.4.0
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.4
 
@@ -45,22 +48,49 @@ jobs:
           - simple_language_plugin
           - tool_window
           - tree_structure_provider
-    container:
-      image: gradle:jdk11
     steps:
       - name: Fetch Sources
-        uses: actions/checkout@v2.3.4
-      - name: Setup Cache
-        uses: actions/cache@v2.1.6
+        uses: actions/checkout@v2.4.0
+      - name: Setup Java
+        uses: actions/setup-java@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          distribution: zulu
+          java-version: 11
+          cache: gradle
+
       - name: Verify Plugin
-        run: gradle -p code_samples/${{ matrix.plugin }} verifyPlugin
+        run: (cd code_samples/${{ matrix.plugin }}; ./gradlew verifyPlugin)
       - name: Test Plugin
-        run: gradle -p code_samples/${{ matrix.plugin }} test
+        run: (cd code_samples/${{ matrix.plugin }}; ./gradlew test)
+
+      - name: Export Properties
+        id: properties
+        shell: bash
+        run: |
+          echo "::set-output name=ideVersions::${PLUGIN_VERIFIER_IDE_VERSIONS// /-}"
+          echo "::set-output name=pluginVerifierHomeDir::~/.pluginVerifier"
+      - name: Setup Plugin Verifier IDEs Cache
+        uses: actions/cache@v2.1.7
+        with:
+          path: ${{ steps.properties.outputs.pluginVerifierHomeDir }}/ides
+          key: plugin-verifier-${{ steps.properties.outputs.ideVersions }}
+
+      - name: Run Plugin Verifier
+        run: |
+          echo "
+          runPluginVerifier {
+            ideVersions = '$PLUGIN_VERIFIER_IDE_VERSIONS'.split(' ').toList()
+          }
+          " >> code_samples/${{ matrix.plugin }}/build.gradle
+          cd code_samples/${{ matrix.plugin }}
+          ./gradlew runPluginVerifier -Pplugin.verifier.home.dir=${{ steps.properties.outputs.pluginVerifierHomeDir }}
+
+      - name: Collect Plugin Verifier Result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: pluginVerifier-result
+          path: ${{ github.workspace }}/code_samples/${{ matrix.plugin }}/build/reports/pluginVerifier
 
   mirror:
     name: Code Samples Mirror

@@ -1,6 +1,6 @@
 [//]: # (title: Code Formatter)
 
-<!-- Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 The IntelliJ Platform includes a powerful framework for implementing custom language formatters.
 In this framework, the plugin specifies the *constraints* on the spacing between different syntax elements.
@@ -39,7 +39,7 @@ For every block, the plugin specifies the following properties:
 *  The _indent_ specifies how the block is indented relative to its parent block.
    There are different modes of indenting defined by factory methods in the Indent class.
    The most commonly used are the none indent (which means the child block is not indented), the regular indent (the child block is indented by the number of spaces specified in the **Project Code Style \| General \| Indent** setting), and the continuation indent (based on **Project Code Style \| General \| Continuation Indent** setting).
-   If the formatting model does not specify an indent, the "continuation without first" mode is used. 
+   If the formatting model does not specify an indent, the "continuation without first" mode is used.
    This default means that the first block in a sequence of blocks with that type is not indented, and the following blocks are indented with a continuation indent.
 
 *  The _wrap_ ([`Wrap`](upsource:///platform/code-style-api/src/com/intellij/formatting/Wrap.java)) specifies whether the content of the block is wrapped to the next line.
@@ -72,7 +72,15 @@ The return value of `createIndentOptions()` determines the default indent size.
 
 ### Rearranger
 
-**New in IntelliJ IDEA 12:**
 Allows custom languages to provide user-configurable arrangement/grouping rules for element types supported by language plugin.
 Rules can be refined via modifiers and name, ordering can be applied additionally.
 Please see [`Rearranger`](upsource:///platform/code-style-api/src/com/intellij/psi/codeStyle/arrangement/Rearranger.java) and related for JavaDoc.
+
+### External Code Formatter
+
+_2021.3_
+
+Register [`AsyncDocumentFormattingService`](upsource:///platform/code-style-api/src/com/intellij/formatting/service/AsyncDocumentFormattingService.java) implementation in extension point [`com.intellij.formattingService`](https://jb.gg/ipe?extensions=com.intellij.formattingService) to invoke external formatter instead of IDE's builtin formatter.
+
+**Example**:
+[`ShExternalFormatter`](upsource:///plugins/sh/src/com/intellij/sh/formatter/ShExternalFormatter.java) from _Shell Script_ plugin

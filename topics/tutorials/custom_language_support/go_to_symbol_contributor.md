@@ -2,9 +2,11 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<include src="language_and_filetype.md" include-id="custom_language_tutorial_header"></include>
+
 A _Go to Symbol Contributor_ helps the user to navigate to any PSI element by its name.
 
-**Reference**: [Go to Class and Go to Symbol](go_to_class_and_go_to_symbol.md)
+**Reference**: [](go_to_class_and_go_to_symbol.md)
 
 ## Define a Helper Method for Generated PSI Elements
 To specify how a PSI element looks like in the <menupath>Navigate | Symbol</menupath> popup window, <control>Structure</control> tool window, or other components, it should implement `getPresentation()`.

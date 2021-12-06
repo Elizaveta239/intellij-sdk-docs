@@ -2,11 +2,18 @@
 
 <!-- Copyright 2000-2021 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
+<chunk id="custom_language_tutorial_header">
+
+ > This page is part of multi step [](custom_language_support_tutorial.md).
+ {type="tip"}
+
+</chunk>
+
 The IntelliJ Platform determines file type by examining the name of a file.
 Each language has [Language](upsource:///platform/core-api/src/com/intellij/lang/Language.java) and [LanguageFileType](upsource:///platform/core-api/src/com/intellij/openapi/fileTypes/LanguageFileType.java) objects defining the language.
 Register the `LanguageFileType` with the IntelliJ Platform in the plugin configuration file.
 
-**Reference**: [Registering a File Type](registering_file_type.md)
+**Reference**: [](registering_file_type.md)
 
 ## Define the Language
 The language implemented in this tutorial is named "Simple" - note the case of the name.
@@ -40,12 +47,15 @@ The Simple Language file type is defined by subclassing [`LanguageFileType`](ups
 
 Direct registration is possible - no `FileTypeFactory` is required.
 
-Instead, the file type is registered via the `com.intellij.fileType` extension point in <path>plugin.xml</path>:
+Instead, the file type is registered via the `com.intellij.fileType` extension point in <path>plugin.xml</path> and registered with <path>*.simple</path> extension:
 
 ```xml
   <extensions defaultExtensionNs="com.intellij">
-    <fileType name="Simple File" implementationClass="org.intellij.sdk.language.SimpleFileType"
-            fieldName="INSTANCE" language="Simple" extensions="simple"/>
+    <fileType name="Simple File"
+              implementationClass="org.intellij.sdk.language.SimpleFileType"
+              fieldName="INSTANCE"
+              language="Simple"
+              extensions="simple"/>
   </extensions>
 ```
 
@@ -54,7 +64,7 @@ Instead, the file type is registered via the `com.intellij.fileType` extension p
 <tab title="Pre-2019.2">
 
 ### Define a FileType Factory
-First, define `SimpleFileTypeFactory` as a subclass of [`FileTypeFactory`](upsource:///platform/platform-api/src/com/intellij/openapi/fileTypes/FileTypeFactory.java).
+First, define `SimpleFileTypeFactory` as a subclass of [`FileTypeFactory`](upsource:///platform/ide-core/src/com/intellij/openapi/fileTypes/FileTypeFactory.java).
 
 ```java
 ```

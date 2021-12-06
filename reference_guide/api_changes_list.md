@@ -80,7 +80,7 @@ If your plugin is hosted on GitHub and you are _not_ using Gradle, consider usin
 
 ### IDE Support
 Consider using the following [IDE inspections](https://www.jetbrains.com/help/idea/code-inspection.html) to get additional alerts about code that uses unstable API features:
- 
+
 - <control>JVM languages | Unstable API Usage</control>
 - <control>JVM languages | Unstable type is used in signature</control>
 
@@ -94,13 +94,14 @@ Usage of [Extension Points](plugin_extensions.md) which are deprecated or annota
 
 The following pages list the breaking changes in IDE and plugin releases with required/recommended steps to take by plugin authors.
 
+* [Changes in 2022.*](api_changes_list_2022.md)
 * [Changes in 2021.*](api_changes_list_2021.md)
 * [Changes in 2020.*](api_changes_list_2020.md)
 * [Changes in 2019.*](api_changes_list_2019.md)
 * [Changes in 2018.*](api_changes_list_2018.md)
 * [Changes in 2017.*](api_changes_list_2017.md)
 * [Changes in 2016.*](api_changes_list_2016.md)
-                                                                                       
+
 ## Library Updates
 
 Information about bundled Third-Party Software/Libraries and their respective versions is available [here](https://www.jetbrains.com/legal/third-party-software/).

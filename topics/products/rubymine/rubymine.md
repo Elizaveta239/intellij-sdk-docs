@@ -17,11 +17,11 @@ The table below summarizes the `gradle-intellij-plugin` attributes to set in the
 Click on an entry in the table's *Attribute* column to go to the documentation about that attribute.
 To see how these attributes appear in a similar <path>build.gradle</path> file for PhpStorm, see [Configuring build.gradle using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-buildgradle-using-the-intellij-idea-product-attribute).
 
-| `gradle-intellij-plugin` Attribute | Attribute Value                                                                                                                                                                                          |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`intellij.type`][properties]      | `IU` for IntelliJ IDEA Ultimate.                                                                                                                                                                         |
-| [`intellij.version`][properties]   | Set to the same `IU` BRANCH.BUILD as the RubyMine target version, e.g. `192.7142.36`.                                                                                                                    |
-| [`intellij.plugins`][properties]   | `org.jetbrains.plugins.ruby:2019.2.20191029` for the Ruby plugin.<br/>See below for Ruby plugin version information.                                                                                      |
+| `gradle-intellij-plugin` Attribute | Attribute Value                                                                                                                                                                                                     |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`intellij.type`][properties]      | `IU` for IntelliJ IDEA Ultimate.                                                                                                                                                                                    |
+| [`intellij.version`][properties]   | Set to the same `IU` BRANCH.BUILD as the RubyMine target version, e.g. `192.7142.36`.                                                                                                                               |
+| [`intellij.plugins`][properties]   | `org.jetbrains.plugins.ruby:2019.2.20191029` for the Ruby plugin.<br/>See below for Ruby plugin version information.                                                                                                |
 | [`runIde.ideDir`][dsl]             | Path to locally installed target version of RubyMine. For example, on macOS:<br/><path>/Users/$USERNAME$/Library/Application Support/JetBrains/Toolbox/apps/RubyMine/ch-0/192.7142.37/RubyMine.app/Contents</path>. |
 
 [properties]: https://github.com/JetBrains/gradle-intellij-plugin/blob/master/README.md#intellij-platform-properties
@@ -32,7 +32,7 @@ Product compatibility is determined from the Ruby plugin [version page](https://
 The Ruby plugin isn't bundled with `IU`, so the Ruby plugin version must be explicitly declared to support the target RubyMine (and `IU`) BRANCH.BUILD version.
 The correct Ruby plugin version is also determined from the Ruby plugin version page.
 
-The dependency on the Ruby plugin APIs must be declared in the `plugin.xml` file.
+The dependency on the Ruby plugin APIs must be declared in the <path>plugin.xml</path> file.
 As described in [Modules Specific to Functionality](plugin_compatibility.md#modules-specific-to-functionality) table, the `<depends>` elements must contain `com.intellij.modules.ruby`.
 The dependency declaration is illustrated in the <path>plugin.xml</path> snippet below:
 
